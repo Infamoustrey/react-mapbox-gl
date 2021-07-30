@@ -58,7 +58,6 @@ var ReactMapboxFactory = function (_a) {
             ReactMapboxGl.prototype.componentDidMount = function () {
                 var _this = this;
                 var _a = this.props, style = _a.style, onStyleLoad = _a.onStyleLoad, center = _a.center, pitch = _a.pitch, zoom = _a.zoom, fitBounds = _a.fitBounds, fitBoundsOptions = _a.fitBoundsOptions, bearing = _a.bearing, maxBounds = _a.maxBounds;
-                MapboxGl.accessToken = accessToken;
                 if (apiUrl) {
                     MapboxGl.config.API_URL = apiUrl;
                 }
@@ -66,6 +65,7 @@ var ReactMapboxFactory = function (_a) {
                     throw new Error('zoom need to be an array type of length 1 for reliable update');
                 }
                 var opts = {
+                    accessToken: accessToken,
                     preserveDrawingBuffer: preserveDrawingBuffer,
                     hash: hash,
                     zoom: zoom[0],
