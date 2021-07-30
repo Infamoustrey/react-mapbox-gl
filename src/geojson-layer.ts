@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as MapboxGL from 'mapbox-gl';
-const isEqual = require('deep-equal'); //tslint:disable-line
+import {isEqual} from 'lodash'
 import diff from './util/diff';
 import { generateID } from './util/uid';
 import { Sources, LayerType } from './util/types';
@@ -148,14 +148,10 @@ export class GeoJSONLayer extends React.Component<Props> {
       visibility
     };
 
-    const layer: MapboxGL.Layer = {
+    const layer: MapboxGL.AnyLayer = {
       id: layerId,
       source: this.id,
-      // TODO: Fix mapbox-gl types
-      // tslint:disable-next-line:no-any
       type: type as any,
-      // TODO: Fix mapbox-gl types
-      // tslint:disable-next-line:no-any
       paint: paint as any,
       layout,
       ...layerOptions
@@ -213,7 +209,7 @@ export class GeoJSONLayer extends React.Component<Props> {
 
       if (layers) {
         layers
-          .filter(layer => layer.source === this.id)
+          .filter(layer => layer.id === this.id)
           .forEach(layer => map.removeLayer(layer.id));
       }
 

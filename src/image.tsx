@@ -9,9 +9,7 @@ interface ImageOptionsType {
 
 type ImageDataType =
   | HTMLImageElement
-  | ArrayBufferView
-  | { width: number; height: number; data: Uint8Array | Uint8ClampedArray }
-  | ImageData;
+  | ImageBitmap;
 
 export interface Props {
   id: string;
@@ -57,7 +55,14 @@ class Image extends React.Component<Props> {
       map.addImage(id, data, options);
       this.loaded();
     } else if (url) {
-      map.loadImage(url, (error: Error | undefined, image: ImageDataType) => {
+      map.loadImage(url, (error: Error | undefined, image: HTMLImageElement | ImageBitmap | undefined) => {
+        if(image === undefined) {
+          if(onError) {
+            onError(new Error('Image is undefined'));
+          }
+         
+          return
+        }
         if (error) {
           if (onError) {
             onError(error);

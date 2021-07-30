@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Map, GeoJSONSource, GeoJSONSourceRaw, Layer } from 'mapbox-gl';
+import { Map, GeoJSONSource, GeoJSONSourceRaw, Layer, AnyLayer } from 'mapbox-gl';
 import { TilesJson } from './util/types';
 import { withMap } from './context';
 
@@ -76,18 +76,18 @@ export class Source extends React.Component<Props> {
     if (map.getSource(this.id)) {
       let { layers = [] } = map.getStyle();
 
-      layers = layers
+      let mapLayers = layers
         .map((layer, idx): LayerWithBefore => {
           const { id: before } = layers[idx + 1] || { id: undefined };
           return { ...layer, before };
         })
         .filter(layer => layer.source === this.id);
 
-      layers.forEach(layer => map.removeLayer(layer.id));
+        mapLayers.forEach(layer => map.removeLayer(layer.id));
 
       map.removeSource(this.id);
 
-      return layers.reverse();
+      return mapLayers.reverse();
     }
 
     return [];
@@ -148,7 +148,7 @@ export class Source extends React.Component<Props> {
         const layers = this.removeSource();
         map.addSource(this.id, this.props.tileJsonSource);
 
-        layers.forEach(layer => map.addLayer(layer, layer.before));
+        layers.forEach(layer => map.addLayer(layer as AnyLayer, layer.before));
       }
     }
 

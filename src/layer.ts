@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as MapboxGL from 'mapbox-gl';
-const isEqual = require('deep-equal'); //tslint:disable-line
+import {isEqual} from 'lodash'
 import diff from './util/diff';
 import { Props as FeatureProps } from './feature';
 
@@ -181,7 +181,7 @@ export default class Layer extends React.Component<Props> {
     } = this.props;
     const { map } = this.props;
 
-    const layer: MapboxGL.Layer = {
+    const layer: MapboxGL.AnyLayer = {
       id,
       source: sourceId || id,
       // TODO: Fix mapbox-gl types

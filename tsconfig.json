@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
-    "module": "commonjs",
+    "module": "esnext",
+    "outDir": "dist",
     "target": "es5",
     "lib":[
-      "es5",
-      "es2015",
       "es2017",
       "dom"
     ],
@@ -13,9 +11,7 @@
     "moduleResolution": "node",
     "rootDirs": ["src"],
     "jsx": "react",
-    "removeComments": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
+    "removeComments": true, 
     "strict": true,
     "noUnusedLocals": true,
     "declaration": true,
@@ -26,12 +22,10 @@
     "src/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "lib",
-    "lib-esm",
+    "node_modules/**/*",
+    "dist",
     "src/__tests__",
     "example",
-    "lib",
     "src/jest"
   ]
 }

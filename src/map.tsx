@@ -9,7 +9,7 @@ import {
 } from './map-events';
 import { MapContext } from './context';
 import { createPortal } from 'react-dom';
-const isEqual = require('deep-equal'); //tslint:disable-line
+import {isEqual} from 'lodash'
 
 export interface PaddingOptions {
   top: number;

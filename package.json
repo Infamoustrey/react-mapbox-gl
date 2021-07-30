@@ -2,9 +2,9 @@
   "name": "react-mapbox-gl",
   "version": "5.1.1",
   "description": "A React binding of mapbox-gl-js",
-  "main": "lib/index.js",
-  "module": "lib-esm/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "jest",
@@ -19,8 +19,7 @@
     "postversion": "git push && git push --tags",
     "prettify": "prettier --write src/*.ts src/*.tsx src/**/*.ts src/**/*.tsx example/src/**/*.ts example/src/**/*.tsx",
     "precommit": "npm run prettify && cd example && node generateRaws.js",
-    "prepush": "npm run build",
-    "prepare": "echo \"preparing\" && npm run build"
+    "prepush": "npm run build"
   },
   "jest": {
     "transform": {
@@ -65,46 +64,32 @@
   },
   "homepage": "https://github.com/alex3165/react-mapbox-gl#readme",
   "dependencies": {
-    "@turf/bbox": "4.7.3",
-    "@turf/helpers": "4.7.3",
-    "@types/supercluster": "^5.0.1",
-    "deep-equal": "1.0.1",
+    "@turf/bbox": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
+    "lodash": "^4.17.21",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "supercluster": "^7.0.0"
   },
   "peerDependencies": {
-    "mapbox-gl": "^1.12.0",
-    "prop-types": "^15.6.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "mapbox-gl": "^2.3.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@types/core-js": "0.9.43",
-    "@types/deep-equal": "1.0.1",
-    "@types/enzyme": "3.1.14",
-    "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/geojson": "7946.0.4",
     "@types/jest": "24.0.19",
-    "@types/mapbox-gl": "^1.12.8",
-    "@types/node": "8.0.29",
+    "@types/lodash": "^4.14.171",
+    "@types/mapbox-gl": "^2.3.3",
     "@types/prettier": "1.10.0",
-    "@types/prop-types": "15.5.6",
-    "@types/react": "^16.9.11",
-    "@types/react-dom": "^16.9.3",
-    "@types/recompose": "0.27.0",
-    "enzyme": "3.7.0",
-    "enzyme-adapter-react-16": "1.6.0",
-    "husky": "^0.14.3",
+    "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
+    "@types/supercluster": "^5.0.1",
     "jest": "24.9.0",
-    "mapbox-gl": "^1.12.0",
-    "prettier": "1.10.2",
-    "prop-types": "15.6.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-test-renderer": "16.5.2",
-    "recompose": "0.26.0",
-    "ts-jest": "24.1.0",
+    "mapbox-gl": "^2.3.1",
+    "ts-jest": "^27.0.4",
     "tslint": "5.7.0",
     "tslint-react": "3.2.0",
-    "typescript": "3.1.6"
+    "typescript": "^4.3.5"
   }
 }

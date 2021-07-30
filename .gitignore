@@ -1,10 +1,6 @@
 .DS_Store
 .vscode
-
 vendor/
-lib/
-lib-esm/
-dist/
 es/
 www/
 node_modules/
