@@ -108,10 +108,10 @@ var GeoJSONLayer = (function (_super) {
             var layers = map.getStyle().layers;
             if (layers) {
                 layers
-                    .filter(function (layer) { return layer.id === _this.id; })
-                    .forEach(function (layer) {
-                    return types.forEach(function (t) { return map.removeLayer(layer.id + "-" + t); });
-                });
+                    .filter(function (layer) {
+                    return types.map(function (t) { return _this.id + "-" + t; }).includes(layer.id);
+                })
+                    .forEach(function (layer) { return map.removeLayer(layer.id); });
             }
             map.removeSource(this.id);
         }

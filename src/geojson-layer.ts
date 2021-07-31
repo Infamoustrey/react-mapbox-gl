@@ -207,10 +207,10 @@ export class GeoJSONLayer extends React.Component<Props> {
 
       if (layers) {
         layers
-          .filter((layer) => layer.id === this.id)
-          .forEach((layer) =>
-            types.forEach((t) => map.removeLayer(layer.id + "-" + t))
-          );
+          .filter((layer) =>
+            types.map((t) => this.id + "-" + t).includes(layer.id)
+          )
+          .forEach((layer) => map.removeLayer(layer.id));
       }
 
       map.removeSource(this.id);
