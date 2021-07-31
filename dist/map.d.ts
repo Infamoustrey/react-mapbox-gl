@@ -1,6 +1,6 @@
-import * as MapboxGl from 'mapbox-gl';
-import * as React from 'react';
-import { Events, Listeners } from './map-events';
+import * as MapboxGl from "mapbox-gl";
+import * as React from "react";
+import { Events, Listeners } from "./map-events";
 export interface PaddingOptions {
     top: number;
     bottom: number;
@@ -39,7 +39,7 @@ export interface Props {
     pitch?: [number];
     containerStyle?: React.CSSProperties;
     className?: string;
-    movingMethod?: 'jumpTo' | 'easeTo' | 'flyTo';
+    movingMethod?: "jumpTo" | "easeTo" | "flyTo";
     animationOptions?: Partial<AnimationOptions>;
     flyToOptions?: Partial<FlyToOptions>;
     children?: JSX.Element | JSX.Element[] | Array<JSX.Element | undefined>;
@@ -52,7 +52,6 @@ export interface State {
 export declare type RequestTransformFunction = (url: string, resourceType: any) => any;
 export interface FactoryParameters {
     accessToken: string;
-    apiUrl?: string;
     minZoom?: number;
     maxZoom?: number;
     hash?: boolean;
@@ -63,7 +62,7 @@ export interface FactoryParameters {
     pitchWithRotate?: boolean;
     attributionControl?: boolean;
     customAttribution?: string | string[];
-    logoPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+    logoPosition?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
     renderWorldCopies?: boolean;
     trackResize?: boolean;
     touchZoomRotate?: boolean;
@@ -86,7 +85,7 @@ declare global {
         }
     }
 }
-declare const ReactMapboxFactory: ({ accessToken, apiUrl, minZoom, maxZoom, hash, preserveDrawingBuffer, scrollZoom, interactive, dragRotate, pitchWithRotate, attributionControl, customAttribution, logoPosition, renderWorldCopies, trackResize, touchZoomRotate, doubleClickZoom, keyboard, dragPan, boxZoom, refreshExpiredTiles, failIfMajorPerformanceCaveat, bearingSnap, antialias, mapInstance, transformRequest }: FactoryParameters) => {
+declare const ReactMapboxFactory: ({ accessToken, minZoom, maxZoom, hash, preserveDrawingBuffer, scrollZoom, interactive, dragRotate, pitchWithRotate, attributionControl, customAttribution, logoPosition, renderWorldCopies, trackResize, touchZoomRotate, doubleClickZoom, keyboard, dragPan, boxZoom, refreshExpiredTiles, failIfMajorPerformanceCaveat, bearingSnap, antialias, mapInstance, transformRequest, }: FactoryParameters) => {
     new (props: (Props & Events) | Readonly<Props & Events>): {
         state: State;
         listeners: Listeners;

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { Props as FeatureProps } from './feature';
-import { generateID } from './util/uid';
-import { LayerCommonProps, Props as LayerProps } from './layer';
-import { Map } from 'mapbox-gl';
+import * as React from "react";
+import { Props as FeatureProps } from "./feature";
+import { v4 as uuid } from "uuid";
+import { LayerCommonProps, Props as LayerProps } from "./layer";
+import { Map } from "mapbox-gl";
 
 export interface EnhancedLayerProps {
   id?: string;
@@ -22,14 +22,14 @@ export function layerMouseTouchEvents(
       | Array<React.ReactElement<FeatureProps>>
       | undefined = undefined;
 
-    public id: string = this.props.id || `layer-${generateID()}`;
+    public id: string = this.props.id || `layer-${uuid()}`;
 
     public getChildren = () =>
       ([] as LayerChildren[])
         .concat(this.props.children)
         .filter(
           (el): el is React.ReactElement<FeatureProps> =>
-            typeof el !== 'undefined'
+            typeof el !== "undefined"
         );
     public getChildFromId = (
       children: Array<React.ReactElement<FeatureProps>>,
@@ -41,11 +41,10 @@ export function layerMouseTouchEvents(
       featureIds: number[] = this.hover
     ) =>
       !!featureIds
-        .map(
-          id =>
-            this.getChildFromId(children, id)
-              ? this.getChildFromId(children, id)!.props.draggable
-              : false
+        .map((id) =>
+          this.getChildFromId(children, id)
+            ? this.getChildFromId(children, id)!.props.draggable
+            : false
         )
         .filter(Boolean).length;
 
@@ -59,7 +58,7 @@ export function layerMouseTouchEvents(
       const { map } = this.props;
 
       if (features) {
-        features.forEach(feature => {
+        features.forEach((feature) => {
           const { id } = feature.properties;
           if (children) {
             const child = this.getChildFromId(children, id);
@@ -106,7 +105,7 @@ export function layerMouseTouchEvents(
         map.dragPan.enable();
       }
 
-      this.hover.forEach(id => {
+      this.hover.forEach((id) => {
         const child = this.getChildFromId(children, id);
         const onMouseLeave = child && child.props.onMouseLeave;
         if (onMouseLeave) {
@@ -122,7 +121,7 @@ export function layerMouseTouchEvents(
     public onMouseDown = () => {
       // User did this on a feature
       if (this.hover.length) {
-        this.onFeatureDown('mousedown');
+        this.onFeatureDown("mousedown");
       }
     };
 
@@ -132,13 +131,13 @@ export function layerMouseTouchEvents(
       this.hover = evt.features.map((feature: any) => feature.properties.id);
 
       if (this.hover.length) {
-        this.onFeatureDown('touchstart');
+        this.onFeatureDown("touchstart");
       }
     };
 
     public onFeatureDown = (startEvent: string) => {
-      const moveEvent = startEvent === 'mousedown' ? 'mousemove' : 'touchmove';
-      const endEvent = startEvent === 'mousedown' ? 'mouseup' : 'touchend';
+      const moveEvent = startEvent === "mousedown" ? "mousemove" : "touchmove";
+      const endEvent = startEvent === "mousedown" ? "mouseup" : "touchend";
       const { map } = this.props;
 
       map.once(moveEvent, this.onFeatureDragStart);
@@ -157,7 +156,7 @@ export function layerMouseTouchEvents(
       const { map } = this.props;
       const children = this.getChildren();
 
-      this.hover.forEach(id => {
+      this.hover.forEach((id) => {
         const child = this.getChildFromId(children, id);
         if (child && !child.props.draggable) {
           return;
@@ -174,10 +173,12 @@ export function layerMouseTouchEvents(
     public onFeatureDrag = (evt: any) => {
       const children = this.getChildren();
       const { map } = this.props;
-      const { lngLat: { lng, lat } } = evt;
+      const {
+        lngLat: { lng, lat },
+      } = evt;
       this.draggedChildren = [];
 
-      this.hover.forEach(id => {
+      this.hover.forEach((id) => {
         const child = this.getChildFromId(children, id);
         const onDrag = child && child.props.onDrag;
 
@@ -185,7 +186,7 @@ export function layerMouseTouchEvents(
         if (child && child.props.draggable) {
           this.draggedChildren!.push(
             React.cloneElement(child, {
-              coordinates: [lng, lat]
+              coordinates: [lng, lat],
             })
           );
 
@@ -203,7 +204,7 @@ export function layerMouseTouchEvents(
       const { map } = this.props;
       const children = this.getChildren();
 
-      this.hover.forEach(id => {
+      this.hover.forEach((id) => {
         const child = this.getChildFromId(children, id);
         const onDragEnd = child && child.props.onDragEnd;
 
@@ -218,21 +219,21 @@ export function layerMouseTouchEvents(
     public componentDidMount() {
       const { map } = this.props;
 
-      map.on('click', this.id, this.onClick);
-      map.on('mouseenter', this.id, this.onMouseEnter);
-      map.on('mouseleave', this.id, this.onMouseLeave);
-      map.on('mousedown', this.id, this.onMouseDown);
-      map.on('touchstart', this.id, this.onTouchStart);
+      map.on("click", this.id, this.onClick);
+      map.on("mouseenter", this.id, this.onMouseEnter);
+      map.on("mouseleave", this.id, this.onMouseLeave);
+      map.on("mousedown", this.id, this.onMouseDown);
+      map.on("touchstart", this.id, this.onTouchStart);
     }
 
     public componentWillUnmount() {
       const { map } = this.props;
 
-      map.off('click', this.onClick);
-      map.off('mouseenter', this.onMouseEnter);
-      map.off('mouseleave', this.onMouseLeave);
-      map.off('mousedown', this.onMouseDown);
-      map.off('touchstart', this.onTouchStart);
+      map.off("click", this.onClick);
+      map.off("mouseenter", this.onMouseEnter);
+      map.off("mouseleave", this.onMouseLeave);
+      map.off("mousedown", this.onMouseDown);
+      map.off("touchstart", this.onTouchStart);
     }
 
     public render() {

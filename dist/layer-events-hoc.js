@@ -24,8 +24,8 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import * as React from 'react';
-import { generateID } from './util/uid';
+import * as React from "react";
+import { v4 as uuid } from "uuid";
 export function layerMouseTouchEvents(WrappedComponent) {
     return (function (_super) {
         __extends(EnhancedLayer, _super);
@@ -33,12 +33,12 @@ export function layerMouseTouchEvents(WrappedComponent) {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.hover = [];
             _this.draggedChildren = undefined;
-            _this.id = _this.props.id || "layer-" + generateID();
+            _this.id = _this.props.id || "layer-" + uuid();
             _this.getChildren = function () {
                 return []
                     .concat(_this.props.children)
                     .filter(function (el) {
-                    return typeof el !== 'undefined';
+                    return typeof el !== "undefined";
                 });
             };
             _this.getChildFromId = function (children, id) { return children[id]; };
@@ -105,18 +105,18 @@ export function layerMouseTouchEvents(WrappedComponent) {
             };
             _this.onMouseDown = function () {
                 if (_this.hover.length) {
-                    _this.onFeatureDown('mousedown');
+                    _this.onFeatureDown("mousedown");
                 }
             };
             _this.onTouchStart = function (evt) {
                 _this.hover = evt.features.map(function (feature) { return feature.properties.id; });
                 if (_this.hover.length) {
-                    _this.onFeatureDown('touchstart');
+                    _this.onFeatureDown("touchstart");
                 }
             };
             _this.onFeatureDown = function (startEvent) {
-                var moveEvent = startEvent === 'mousedown' ? 'mousemove' : 'touchmove';
-                var endEvent = startEvent === 'mousedown' ? 'mouseup' : 'touchend';
+                var moveEvent = startEvent === "mousedown" ? "mousemove" : "touchmove";
+                var endEvent = startEvent === "mousedown" ? "mouseup" : "touchend";
                 var map = _this.props.map;
                 map.once(moveEvent, _this.onFeatureDragStart);
                 map.on(moveEvent, _this.onFeatureDrag);
@@ -150,7 +150,7 @@ export function layerMouseTouchEvents(WrappedComponent) {
                     var onDrag = child && child.props.onDrag;
                     if (child && child.props.draggable) {
                         _this.draggedChildren.push(React.cloneElement(child, {
-                            coordinates: [lng, lat]
+                            coordinates: [lng, lat],
                         }));
                         if (onDrag) {
                             onDrag(__assign(__assign({}, evt), { map: map }));
@@ -175,19 +175,19 @@ export function layerMouseTouchEvents(WrappedComponent) {
         }
         EnhancedLayer.prototype.componentDidMount = function () {
             var map = this.props.map;
-            map.on('click', this.id, this.onClick);
-            map.on('mouseenter', this.id, this.onMouseEnter);
-            map.on('mouseleave', this.id, this.onMouseLeave);
-            map.on('mousedown', this.id, this.onMouseDown);
-            map.on('touchstart', this.id, this.onTouchStart);
+            map.on("click", this.id, this.onClick);
+            map.on("mouseenter", this.id, this.onMouseEnter);
+            map.on("mouseleave", this.id, this.onMouseLeave);
+            map.on("mousedown", this.id, this.onMouseDown);
+            map.on("touchstart", this.id, this.onTouchStart);
         };
         EnhancedLayer.prototype.componentWillUnmount = function () {
             var map = this.props.map;
-            map.off('click', this.onClick);
-            map.off('mouseenter', this.onMouseEnter);
-            map.off('mouseleave', this.onMouseLeave);
-            map.off('mousedown', this.onMouseDown);
-            map.off('touchstart', this.onTouchStart);
+            map.off("click", this.onClick);
+            map.off("mouseenter", this.onMouseEnter);
+            map.off("mouseleave", this.onMouseLeave);
+            map.off("mousedown", this.onMouseDown);
+            map.off("touchstart", this.onTouchStart);
         };
         EnhancedLayer.prototype.render = function () {
             return (React.createElement(WrappedComponent, __assign({}, this.props, { id: this.id, map: this.props.map, draggedChildren: this.draggedChildren })));

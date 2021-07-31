@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { Props as FeatureProps } from './feature';
-import { LayerCommonProps, Props as LayerProps } from './layer';
-import { Map } from 'mapbox-gl';
+import * as React from "react";
+import { Props as FeatureProps } from "./feature";
+import { LayerCommonProps, Props as LayerProps } from "./layer";
+import { Map } from "mapbox-gl";
 export interface EnhancedLayerProps {
     id?: string;
     map: Map;

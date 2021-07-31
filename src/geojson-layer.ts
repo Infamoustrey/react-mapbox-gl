@@ -2,7 +2,7 @@ import * as React from "react";
 import * as MapboxGL from "mapbox-gl";
 import { isEqual } from "lodash";
 import diff from "./util/diff";
-import { generateID } from "./util/uid";
+import { v4 as uuid } from "uuid";
 import { Sources, LayerType } from "./util/types";
 import { withMap } from "./context";
 
@@ -116,7 +116,7 @@ type Layouts =
   | MapboxGL.FillExtrusionLayout;
 
 export class GeoJSONLayer extends React.Component<Props> {
-  private id: string = this.props.id || `geojson-${generateID()}`;
+  private id: string = this.props.id || `geojson-${uuid()}`;
 
   // TODO: Refactor to use defaultProps
   private source: Sources = {

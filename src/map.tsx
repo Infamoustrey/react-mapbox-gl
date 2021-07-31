@@ -1,15 +1,15 @@
-import * as MapboxGl from 'mapbox-gl';
-import * as React from 'react';
+import * as MapboxGl from "mapbox-gl";
+import * as React from "react";
 import {
   Events,
   listenEvents,
   events,
   Listeners,
-  updateEvents
-} from './map-events';
-import { MapContext } from './context';
-import { createPortal } from 'react-dom';
-import {isEqual} from 'lodash'
+  updateEvents,
+} from "./map-events";
+import { MapContext } from "./context";
+import { createPortal } from "react-dom";
+import { isEqual } from "lodash";
 
 export interface PaddingOptions {
   top: number;
@@ -55,7 +55,7 @@ export interface Props {
   pitch?: [number];
   containerStyle?: React.CSSProperties;
   className?: string;
-  movingMethod?: 'jumpTo' | 'easeTo' | 'flyTo';
+  movingMethod?: "jumpTo" | "easeTo" | "flyTo";
   animationOptions?: Partial<AnimationOptions>;
   flyToOptions?: Partial<FlyToOptions>;
   children?: JSX.Element | JSX.Element[] | Array<JSX.Element | undefined>;
@@ -75,7 +75,6 @@ export type RequestTransformFunction = (
 // Static Properties of the map
 export interface FactoryParameters {
   accessToken: string;
-  apiUrl?: string;
   minZoom?: number;
   maxZoom?: number;
   hash?: boolean;
@@ -86,7 +85,7 @@ export interface FactoryParameters {
   pitchWithRotate?: boolean;
   attributionControl?: boolean;
   customAttribution?: string | string[];
-  logoPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  logoPosition?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
   renderWorldCopies?: boolean;
   trackResize?: boolean;
   touchZoomRotate?: boolean;
@@ -104,7 +103,7 @@ export interface FactoryParameters {
 
 // Satisfy typescript pitfall with defaultProps
 const defaultZoom = [11];
-const defaultMovingMethod = 'flyTo';
+const defaultMovingMethod = "flyTo";
 const defaultCenter = [-0.2416815, 51.5285582];
 
 // tslint:disable-next-line:no-namespace
@@ -119,7 +118,6 @@ declare global {
 
 const ReactMapboxFactory = ({
   accessToken,
-  apiUrl,
   minZoom = 0,
   maxZoom = 20,
   hash = false,
@@ -130,7 +128,7 @@ const ReactMapboxFactory = ({
   pitchWithRotate = true,
   attributionControl = true,
   customAttribution,
-  logoPosition = 'bottom-left',
+  logoPosition = "bottom-left",
   renderWorldCopies = true,
   trackResize = true,
   touchZoomRotate = true,
@@ -143,7 +141,7 @@ const ReactMapboxFactory = ({
   bearingSnap = 7,
   antialias = false,
   mapInstance,
-  transformRequest
+  transformRequest,
 }: FactoryParameters) => {
   return class ReactMapboxGl extends React.Component<Props & Events, State> {
     public static defaultProps = {
@@ -155,13 +153,13 @@ const ReactMapboxFactory = ({
       movingMethod: defaultMovingMethod,
       pitch: 0,
       containerStyle: {
-        textAlign: 'left'
-      }
+        textAlign: "left",
+      },
     };
 
     public state: State = {
       map: mapInstance,
-      ready: false
+      ready: false,
     };
 
     public listeners: Listeners = {};
@@ -173,7 +171,7 @@ const ReactMapboxFactory = ({
 
     public calcCenter = (bounds: FitBounds): [number, number] => [
       (bounds[0][0] + bounds[1][0]) / 2,
-      (bounds[0][1] + bounds[1][1]) / 2
+      (bounds[0][1] + bounds[1][1]) / 2,
     ];
 
     public componentDidMount() {
@@ -186,19 +184,12 @@ const ReactMapboxFactory = ({
         fitBounds,
         fitBoundsOptions,
         bearing,
-        maxBounds
+        maxBounds,
       } = this.props;
-
-      // tslint:disable-next-line:no-any
-      // (MapboxGl as any).accessToken = accessToken;
-      if (apiUrl) {
-        // tslint:disable-next-line:no-any
-        (MapboxGl as any).config.API_URL = apiUrl;
-      }
 
       if (!Array.isArray(zoom)) {
         throw new Error(
-          'zoom need to be an array type of length 1 for reliable update'
+          "zoom need to be an array type of length 1 for reliable update"
         );
       }
 
@@ -234,13 +225,13 @@ const ReactMapboxFactory = ({
         bearingSnap,
         failIfMajorPerformanceCaveat,
         antialias,
-        transformRequest
+        transformRequest,
       };
 
       if (bearing) {
         if (!Array.isArray(bearing)) {
           throw new Error(
-            'bearing need to be an array type of length 1 for reliable update'
+            "bearing need to be an array type of length 1 for reliable update"
           );
         }
 
@@ -250,7 +241,7 @@ const ReactMapboxFactory = ({
       if (pitch) {
         if (!Array.isArray(pitch)) {
           throw new Error(
-            'pitch need to be an array type of length 1 for reliable update'
+            "pitch need to be an array type of length 1 for reliable update"
           );
         }
 
@@ -272,7 +263,7 @@ const ReactMapboxFactory = ({
       }
 
       // tslint:disable-next-line:no-any
-      map.on('load', (evt: React.SyntheticEvent<any>) => {
+      map.on("load", (evt: React.SyntheticEvent<any>) => {
         if (this._isMounted) {
           this.setState({ ready: true });
         }
@@ -350,7 +341,7 @@ const ReactMapboxFactory = ({
           !isEqual(prevProps.fitBoundsOptions, this.props.fitBoundsOptions)
         ) {
           map.fitBounds(this.props.fitBounds, this.props.fitBoundsOptions, {
-            fitboundUpdate: true
+            fitboundUpdate: true,
           });
         }
       }
@@ -370,7 +361,7 @@ const ReactMapboxFactory = ({
           zoom: didZoomUpdate && this.props.zoom ? this.props.zoom[0] : zoom,
           center: didCenterUpdate ? this.props.center : center,
           bearing: didBearingUpdate ? this.props.bearing : bearing,
-          pitch: didPitchUpdate ? this.props.pitch : pitch
+          pitch: didPitchUpdate ? this.props.pitch : pitch,
         });
       }
 
@@ -386,18 +377,14 @@ const ReactMapboxFactory = ({
     };
 
     public render() {
-      const {
-        containerStyle,
-        className,
-        children,
-        renderChildrenInPortal
-      } = this.props;
+      const { containerStyle, className, children, renderChildrenInPortal } =
+        this.props;
 
       const { ready, map } = this.state;
 
       if (renderChildrenInPortal) {
         const container =
-          ready && map && typeof map.getCanvasContainer === 'function'
+          ready && map && typeof map.getCanvasContainer === "function"
             ? map.getCanvasContainer()
             : undefined;
 

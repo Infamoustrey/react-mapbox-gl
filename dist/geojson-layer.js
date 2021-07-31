@@ -27,7 +27,7 @@ var __assign = (this && this.__assign) || function () {
 import * as React from "react";
 import { isEqual } from "lodash";
 import diff from "./util/diff";
-import { generateID } from "./util/uid";
+import { v4 as uuid } from "uuid";
 import { withMap } from "./context";
 var types = ["symbol", "line", "fill", "fill-extrusion", "circle"];
 var toCamelCase = function (str) {
@@ -49,7 +49,7 @@ var GeoJSONLayer = (function (_super) {
     __extends(GeoJSONLayer, _super);
     function GeoJSONLayer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.id = _this.props.id || "geojson-" + generateID();
+        _this.id = _this.props.id || "geojson-" + uuid();
         _this.source = __assign(__assign({ type: "geojson" }, _this.props.sourceOptions), { data: _this.props.data });
         _this.layerIds = [];
         _this.buildLayerId = function (type) {
