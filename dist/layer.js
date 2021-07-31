@@ -24,63 +24,63 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import * as React from 'react';
-import { isEqual } from 'lodash';
-import diff from './util/diff';
+import * as React from "react";
+import { isEqual } from "lodash";
+import diff from "./util/diff";
 var eventToHandler = {
-    touchstart: 'onTouchStart',
-    touchend: 'onTouchEnd',
-    touchcancel: 'onTouchCancel',
-    mousemove: 'onMouseMove',
-    mouseenter: 'onMouseEnter',
-    mouseleave: 'onMouseLeave',
-    mousedown: 'onMouseDown',
-    mouseup: 'onMouseUp',
-    click: 'onClick'
+    touchstart: "onTouchStart",
+    touchend: "onTouchEnd",
+    touchcancel: "onTouchCancel",
+    mousemove: "onMouseMove",
+    mouseenter: "onMouseEnter",
+    mouseleave: "onMouseLeave",
+    mousedown: "onMouseDown",
+    mouseup: "onMouseUp",
+    click: "onClick",
 };
 var Layer = (function (_super) {
     __extends(Layer, _super);
     function Layer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.source = __assign(__assign({ type: 'geojson' }, _this.props.geoJSONSourceOptions), { data: {
-                type: 'FeatureCollection',
-                features: []
+        _this.source = __assign(__assign({ type: "geojson" }, _this.props.geoJSONSourceOptions), { data: {
+                type: "FeatureCollection",
+                features: [],
             } });
         _this.geometry = function (coordinates) {
             switch (_this.props.type) {
-                case 'symbol':
-                case 'circle':
+                case "symbol":
+                case "circle":
                     return {
-                        type: 'Point',
-                        coordinates: coordinates
+                        type: "Point",
+                        coordinates: coordinates,
                     };
-                case 'fill':
+                case "fill":
                     if (Array.isArray(coordinates[0][0][0])) {
                         return {
-                            type: 'MultiPolygon',
-                            coordinates: coordinates
+                            type: "MultiPolygon",
+                            coordinates: coordinates,
                         };
                     }
                     return {
-                        type: 'Polygon',
-                        coordinates: coordinates
+                        type: "Polygon",
+                        coordinates: coordinates,
                     };
-                case 'line':
+                case "line":
                     return {
-                        type: 'LineString',
-                        coordinates: coordinates
+                        type: "LineString",
+                        coordinates: coordinates,
                     };
                 default:
                     return {
-                        type: 'Point',
-                        coordinates: coordinates
+                        type: "Point",
+                        coordinates: coordinates,
                     };
             }
         };
         _this.makeFeature = function (props, id) { return ({
-            type: 'Feature',
+            type: "Feature",
             geometry: _this.geometry(props.coordinates),
-            properties: __assign(__assign({}, props.properties), { id: id })
+            properties: __assign(__assign({}, props.properties), { id: id }),
         }); };
         _this.initialize = function () {
             var _a = _this.props, type = _a.type, layout = _a.layout, paint = _a.paint, sourceId = _a.sourceId, before = _a.before, images = _a.images, id = _a.id, metadata = _a.metadata, sourceLayer = _a.sourceLayer, minZoom = _a.minZoom, maxZoom = _a.maxZoom, filter = _a.filter;
@@ -91,10 +91,10 @@ var Layer = (function (_super) {
                 type: type,
                 layout: layout,
                 paint: paint,
-                metadata: metadata
+                metadata: metadata,
             };
             if (sourceLayer) {
-                layer['source-layer'] = sourceLayer;
+                layer["source-layer"] = sourceLayer;
             }
             if (minZoom) {
                 layer.minzoom = minZoom;
@@ -148,7 +148,7 @@ var Layer = (function (_super) {
     Layer.prototype.componentDidMount = function () {
         var map = this.props.map;
         this.initialize();
-        map.on('styledata', this.onStyleDataChange);
+        map.on("styledata", this.onStyleDataChange);
     };
     Layer.prototype.componentWillUnmount = function () {
         var _this = this;
@@ -157,7 +157,7 @@ var Layer = (function (_super) {
         if (!map || !map.getStyle()) {
             return;
         }
-        map.off('styledata', this.onStyleDataChange);
+        map.off("styledata", this.onStyleDataChange);
         Object.entries(eventToHandler).forEach(function (_a) {
             var event = _a[0], propName = _a[1];
             var handler = _this.props[propName];
@@ -243,16 +243,16 @@ var Layer = (function (_super) {
         var source = map.getSource(sourceId || this.props.id);
         if (source && !sourceId && source.setData) {
             source.setData({
-                type: 'FeatureCollection',
-                features: features
+                type: "FeatureCollection",
+                features: features,
             });
         }
         return null;
     };
     Layer.defaultProps = {
-        type: 'symbol',
+        type: "symbol",
         layout: {},
-        paint: {}
+        paint: {},
     };
     return Layer;
 }(React.Component));

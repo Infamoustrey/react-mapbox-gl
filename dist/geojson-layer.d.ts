@@ -1,6 +1,6 @@
-import * as React from 'react';
-import * as MapboxGL from 'mapbox-gl';
-import { Sources } from './util/types';
+import * as React from "react";
+import * as MapboxGL from "mapbox-gl";
+import { Sources } from "./util/types";
 export declare type MouseEvent = (evt: any) => any;
 export interface LineProps {
     linePaint?: MapboxGL.LinePaint;

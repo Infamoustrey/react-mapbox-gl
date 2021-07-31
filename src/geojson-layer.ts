@@ -1,28 +1,26 @@
-import * as React from 'react';
-import * as MapboxGL from 'mapbox-gl';
-import {isEqual} from 'lodash'
-import diff from './util/diff';
-import { generateID } from './util/uid';
-import { Sources, LayerType } from './util/types';
-import { withMap } from './context';
+import * as React from "react";
+import * as MapboxGL from "mapbox-gl";
+import { isEqual } from "lodash";
+import diff from "./util/diff";
+import { generateID } from "./util/uid";
+import { Sources, LayerType } from "./util/types";
+import { withMap } from "./context";
 
-const types = ['symbol', 'line', 'fill', 'fill-extrusion', 'circle'];
+const types = ["symbol", "line", "fill", "fill-extrusion", "circle"];
 const toCamelCase = (str: string) =>
   str
-    .replace(
-      /(?:^\w|[A-Z]|\b\w)/g,
-      (letter, index) =>
-        index === 0 ? letter.toLowerCase() : letter.toUpperCase()
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) =>
+      index === 0 ? letter.toLowerCase() : letter.toUpperCase()
     )
-    .replace(/[\s+]|-/g, '');
+    .replace(/[\s+]|-/g, "");
 
 const eventToHandler = {
-  mousemove: 'OnMouseMove',
-  mouseenter: 'OnMouseEnter',
-  mouseleave: 'OnMouseLeave',
-  mousedown: 'OnMouseDown',
-  mouseup: 'OnMouseUp',
-  click: 'OnClick'
+  mousemove: "OnMouseMove",
+  mouseenter: "OnMouseEnter",
+  mouseleave: "OnMouseLeave",
+  mousedown: "OnMouseDown",
+  mouseup: "OnMouseUp",
+  click: "OnClick",
 };
 
 // tslint:disable-next-line:no-any
@@ -122,9 +120,9 @@ export class GeoJSONLayer extends React.Component<Props> {
 
   // TODO: Refactor to use defaultProps
   private source: Sources = {
-    type: 'geojson',
+    type: "geojson",
     ...this.props.sourceOptions,
-    data: this.props.data
+    data: this.props.data,
     // tslint:disable-next-line:no-any
   } as any;
 
@@ -143,9 +141,9 @@ export class GeoJSONLayer extends React.Component<Props> {
     const paint: Paints = this.props[`${toCamelCase(type)}Paint`] || {};
 
     // default undefined layers to invisible
-    const visibility = Object.keys(paint).length ? 'visible' : 'none';
+    const visibility = Object.keys(paint).length ? "visible" : "none";
     const layout: Layouts = this.props[`${toCamelCase(type)}Layout`] || {
-      visibility
+      visibility,
     };
 
     const layer: MapboxGL.AnyLayer = {
@@ -154,7 +152,7 @@ export class GeoJSONLayer extends React.Component<Props> {
       type: type as any,
       paint: paint as any,
       layout,
-      ...layerOptions
+      ...layerOptions,
     };
 
     map.addLayer(layer, before);
@@ -169,7 +167,7 @@ export class GeoJSONLayer extends React.Component<Props> {
 
     const events = Object.keys(eventToHandler) as MapboxEventTypes;
 
-    events.forEach(event => {
+    events.forEach((event) => {
       const handler =
         this.props[`${toCamelCase(type)}${eventToHandler[event]}`] || null;
 
@@ -194,11 +192,11 @@ export class GeoJSONLayer extends React.Component<Props> {
 
     map.addSource(this.id, this.source);
 
-    this.createLayer('symbol');
-    this.createLayer('line');
-    this.createLayer('fill');
-    this.createLayer('fill-extrusion');
-    this.createLayer('circle');
+    this.createLayer("symbol");
+    this.createLayer("line");
+    this.createLayer("fill");
+    this.createLayer("fill-extrusion");
+    this.createLayer("circle");
   }
 
   private unbind() {
@@ -209,16 +207,18 @@ export class GeoJSONLayer extends React.Component<Props> {
 
       if (layers) {
         layers
-          .filter(layer => layer.id === this.id)
-          .forEach(layer => map.removeLayer(layer.id));
+          .filter((layer) => layer.id === this.id)
+          .forEach((layer) =>
+            types.forEach((t) => map.removeLayer(layer.id + "-" + t))
+          );
       }
 
       map.removeSource(this.id);
     }
 
-    types.forEach(type => {
+    types.forEach((type) => {
       const events = Object.keys(eventToHandler) as MapboxEventTypes;
-      events.forEach(event => {
+      events.forEach((event) => {
         const prop = toCamelCase(type) + eventToHandler[event];
 
         if (this.props[prop]) {
@@ -227,7 +227,7 @@ export class GeoJSONLayer extends React.Component<Props> {
       });
     });
 
-    this.layerIds.forEach(lId => {
+    this.layerIds.forEach((lId) => {
       if (map.getLayer(lId)) {
         map.removeLayer(lId);
       }
@@ -237,7 +237,7 @@ export class GeoJSONLayer extends React.Component<Props> {
   public componentDidMount() {
     const { map } = this.props;
     this.initialize();
-    map.on('styledata', this.onStyleDataChange);
+    map.on("styledata", this.onStyleDataChange);
   }
 
   public componentWillUnmount() {
@@ -247,7 +247,7 @@ export class GeoJSONLayer extends React.Component<Props> {
       return;
     }
 
-    map.off('styledata', this.onStyleDataChange);
+    map.off("styledata", this.onStyleDataChange);
 
     this.unbind();
   }
@@ -256,7 +256,7 @@ export class GeoJSONLayer extends React.Component<Props> {
     source?: Sources
   ): source is MapboxGL.GeoJSONSource =>
     !!source &&
-    typeof (source as MapboxGL.GeoJSONSource).setData === 'function';
+    typeof (source as MapboxGL.GeoJSONSource).setData === "function";
 
   public componentDidUpdate(prevProps: Props) {
     const { data, before, layerOptions, map } = prevProps;
@@ -269,9 +269,9 @@ export class GeoJSONLayer extends React.Component<Props> {
       source.setData(this.props.data);
 
       this.source = {
-        type: 'geojson',
+        type: "geojson",
         ...this.props.sourceOptions,
-        data: this.props.data
+        data: this.props.data,
         // tslint:disable-next-line:no-any
       } as any;
     }
@@ -281,36 +281,36 @@ export class GeoJSONLayer extends React.Component<Props> {
       layerOptions &&
       !isEqual(this.props.layerOptions.filter, layerOptions.filter);
 
-    types.forEach(type => {
+    types.forEach((type) => {
       const layerId = this.buildLayerId(type);
 
       if (this.props.layerOptions && layerFilterChanged) {
         map.setFilter(layerId, this.props.layerOptions.filter || []);
       }
 
-      const paintProp = toCamelCase(type) + 'Paint';
+      const paintProp = toCamelCase(type) + "Paint";
 
       if (!isEqual(prevProps[paintProp], this.props[paintProp])) {
         const paintDiff = diff(prevProps[paintProp], this.props[paintProp]);
 
-        Object.keys(paintDiff).forEach(key => {
+        Object.keys(paintDiff).forEach((key) => {
           map.setPaintProperty(layerId, key, paintDiff[key]);
         });
       }
 
-      const layoutProp = toCamelCase(type) + 'Layout';
+      const layoutProp = toCamelCase(type) + "Layout";
 
       if (!isEqual(prevProps[layoutProp], this.props[layoutProp])) {
         const layoutDiff = diff(prevProps[layoutProp], this.props[layoutProp]);
 
-        Object.keys(layoutDiff).forEach(key => {
+        Object.keys(layoutDiff).forEach((key) => {
           map.setLayoutProperty(layerId, key, layoutDiff[key]);
         });
       }
 
       const events = Object.keys(eventToHandler) as MapboxEventTypes;
 
-      events.forEach(event => {
+      events.forEach((event) => {
         const prop = toCamelCase(type) + eventToHandler[event];
 
         if (prevProps[prop] !== this.props[prop]) {

@@ -24,33 +24,33 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import * as React from 'react';
-import { isEqual } from 'lodash';
-import diff from './util/diff';
-import { generateID } from './util/uid';
-import { withMap } from './context';
-var types = ['symbol', 'line', 'fill', 'fill-extrusion', 'circle'];
+import * as React from "react";
+import { isEqual } from "lodash";
+import diff from "./util/diff";
+import { generateID } from "./util/uid";
+import { withMap } from "./context";
+var types = ["symbol", "line", "fill", "fill-extrusion", "circle"];
 var toCamelCase = function (str) {
     return str
         .replace(/(?:^\w|[A-Z]|\b\w)/g, function (letter, index) {
         return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
     })
-        .replace(/[\s+]|-/g, '');
+        .replace(/[\s+]|-/g, "");
 };
 var eventToHandler = {
-    mousemove: 'OnMouseMove',
-    mouseenter: 'OnMouseEnter',
-    mouseleave: 'OnMouseLeave',
-    mousedown: 'OnMouseDown',
-    mouseup: 'OnMouseUp',
-    click: 'OnClick'
+    mousemove: "OnMouseMove",
+    mouseenter: "OnMouseEnter",
+    mouseleave: "OnMouseLeave",
+    mousedown: "OnMouseDown",
+    mouseup: "OnMouseUp",
+    click: "OnClick",
 };
 var GeoJSONLayer = (function (_super) {
     __extends(GeoJSONLayer, _super);
     function GeoJSONLayer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.id = _this.props.id || "geojson-" + generateID();
-        _this.source = __assign(__assign({ type: 'geojson' }, _this.props.sourceOptions), { data: _this.props.data });
+        _this.source = __assign(__assign({ type: "geojson" }, _this.props.sourceOptions), { data: _this.props.data });
         _this.layerIds = [];
         _this.buildLayerId = function (type) {
             return _this.id + "-" + type;
@@ -60,9 +60,9 @@ var GeoJSONLayer = (function (_super) {
             var layerId = _this.buildLayerId(type);
             _this.layerIds.push(layerId);
             var paint = _this.props[toCamelCase(type) + "Paint"] || {};
-            var visibility = Object.keys(paint).length ? 'visible' : 'none';
+            var visibility = Object.keys(paint).length ? "visible" : "none";
             var layout = _this.props[toCamelCase(type) + "Layout"] || {
-                visibility: visibility
+                visibility: visibility,
             };
             var layer = __assign({ id: layerId, source: _this.id, type: type, paint: paint, layout: layout }, layerOptions);
             map.addLayer(layer, before);
@@ -88,18 +88,18 @@ var GeoJSONLayer = (function (_super) {
         };
         _this.isGeoJSONSource = function (source) {
             return !!source &&
-                typeof source.setData === 'function';
+                typeof source.setData === "function";
         };
         return _this;
     }
     GeoJSONLayer.prototype.initialize = function () {
         var map = this.props.map;
         map.addSource(this.id, this.source);
-        this.createLayer('symbol');
-        this.createLayer('line');
-        this.createLayer('fill');
-        this.createLayer('fill-extrusion');
-        this.createLayer('circle');
+        this.createLayer("symbol");
+        this.createLayer("line");
+        this.createLayer("fill");
+        this.createLayer("fill-extrusion");
+        this.createLayer("circle");
     };
     GeoJSONLayer.prototype.unbind = function () {
         var _this = this;
@@ -109,7 +109,9 @@ var GeoJSONLayer = (function (_super) {
             if (layers) {
                 layers
                     .filter(function (layer) { return layer.id === _this.id; })
-                    .forEach(function (layer) { return map.removeLayer(layer.id); });
+                    .forEach(function (layer) {
+                    return types.forEach(function (t) { return map.removeLayer(layer.id + "-" + t); });
+                });
             }
             map.removeSource(this.id);
         }
@@ -131,14 +133,14 @@ var GeoJSONLayer = (function (_super) {
     GeoJSONLayer.prototype.componentDidMount = function () {
         var map = this.props.map;
         this.initialize();
-        map.on('styledata', this.onStyleDataChange);
+        map.on("styledata", this.onStyleDataChange);
     };
     GeoJSONLayer.prototype.componentWillUnmount = function () {
         var map = this.props.map;
         if (!map || !map.getStyle()) {
             return;
         }
-        map.off('styledata', this.onStyleDataChange);
+        map.off("styledata", this.onStyleDataChange);
         this.unbind();
     };
     GeoJSONLayer.prototype.componentDidUpdate = function (prevProps) {
@@ -150,7 +152,7 @@ var GeoJSONLayer = (function (_super) {
         }
         if (this.props.data !== data) {
             source.setData(this.props.data);
-            this.source = __assign(__assign({ type: 'geojson' }, this.props.sourceOptions), { data: this.props.data });
+            this.source = __assign(__assign({ type: "geojson" }, this.props.sourceOptions), { data: this.props.data });
         }
         var layerFilterChanged = this.props.layerOptions &&
             layerOptions &&
@@ -160,14 +162,14 @@ var GeoJSONLayer = (function (_super) {
             if (_this.props.layerOptions && layerFilterChanged) {
                 map.setFilter(layerId, _this.props.layerOptions.filter || []);
             }
-            var paintProp = toCamelCase(type) + 'Paint';
+            var paintProp = toCamelCase(type) + "Paint";
             if (!isEqual(prevProps[paintProp], _this.props[paintProp])) {
                 var paintDiff_1 = diff(prevProps[paintProp], _this.props[paintProp]);
                 Object.keys(paintDiff_1).forEach(function (key) {
                     map.setPaintProperty(layerId, key, paintDiff_1[key]);
                 });
             }
-            var layoutProp = toCamelCase(type) + 'Layout';
+            var layoutProp = toCamelCase(type) + "Layout";
             if (!isEqual(prevProps[layoutProp], _this.props[layoutProp])) {
                 var layoutDiff_1 = diff(prevProps[layoutProp], _this.props[layoutProp]);
                 Object.keys(layoutDiff_1).forEach(function (key) {

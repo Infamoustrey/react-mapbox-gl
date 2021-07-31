@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as MapboxGL from 'mapbox-gl';
+import * as React from "react";
+import * as MapboxGL from "mapbox-gl";
 export declare type Paint = MapboxGL.BackgroundPaint | MapboxGL.FillPaint | MapboxGL.FillExtrusionPaint | MapboxGL.SymbolPaint | MapboxGL.LinePaint | MapboxGL.RasterPaint | MapboxGL.CirclePaint;
 export declare type Layout = MapboxGL.BackgroundLayout | MapboxGL.FillLayout | MapboxGL.FillExtrusionLayout | MapboxGL.LineLayout | MapboxGL.SymbolLayout | MapboxGL.RasterLayout | MapboxGL.CircleLayout;
 export interface ImageOptions {
@@ -26,7 +26,7 @@ export interface LayerEvents {
     onTouchCancel?: MouseEvent;
 }
 export interface LayerCommonProps {
-    type?: 'symbol' | 'line' | 'fill' | 'circle' | 'raster' | 'fill-extrusion' | 'background' | 'heatmap';
+    type?: "symbol" | "line" | "fill" | "circle" | "raster" | "fill-extrusion" | "background" | "heatmap";
     sourceId?: string;
     images?: ImageDefinition | ImageDefinition[] | ImageDefinitionWithOptions | ImageDefinitionWithOptions[];
     before?: string;
