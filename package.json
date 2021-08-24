@@ -1,13 +1,13 @@
 {
   "name": "@infamoustrey/react-mapbox-gl",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "A React binding of mapbox-gl-js",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "tsc -p tsconfig-esm.json",
+    "build": "tsc",
     "build:watch": "tsc --watch",
     "prepublishOnly": "npm run clean && npm run build",
     "version": "npm run build",
