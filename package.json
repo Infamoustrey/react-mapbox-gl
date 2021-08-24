@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "private": "false",
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc",
