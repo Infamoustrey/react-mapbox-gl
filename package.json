@@ -37,6 +37,9 @@
   "contributors": [
     "Trey Foster"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Infamoustrey/react-mapbox-gl/issues"
