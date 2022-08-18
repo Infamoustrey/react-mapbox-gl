@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as MapboxGL from "mapbox-gl";
-import { Sources } from "./util/types";
 export declare type MouseEvent = (evt: any) => any;
 export interface LineProps {
     linePaint?: MapboxGL.LinePaint;
@@ -72,7 +71,7 @@ export declare class GeoJSONLayer extends React.Component<Props> {
     private unbind;
     componentDidMount(): void;
     componentWillUnmount(): void;
-    isGeoJSONSource: (source?: Sources | undefined) => source is MapboxGL.GeoJSONSource;
+    isGeoJSONSource: (source?: MapboxGL.AnySourceImpl | undefined) => source is MapboxGL.GeoJSONSource;
     componentDidUpdate(prevProps: Props): void;
     render(): null;
 }

@@ -253,7 +253,7 @@ export class GeoJSONLayer extends React.Component<Props> {
   }
 
   public isGeoJSONSource = (
-    source?: Sources
+    source?: MapboxGL.AnySourceImpl
   ): source is MapboxGL.GeoJSONSource =>
     !!source &&
     typeof (source as MapboxGL.GeoJSONSource).setData === "function";
