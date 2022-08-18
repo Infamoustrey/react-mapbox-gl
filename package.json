@@ -1,18 +1,14 @@
 {
-  "name": "react-mapbox-gl",
-  "version": "5.1.1",
+  "name": "@infamoustrey/react-mapbox-gl",
+  "version": "6.0.3",
   "description": "A React binding of mapbox-gl-js",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "private": "false",
   "scripts": {
-    "clean": "rm -rf dist",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "lint": "tslint --project tsconfig.json",
-    "build": "npm run lint && npm run test && npm run build:commonjs && npm run build:esm",
-    "build:commonjs": "tsc -p tsconfig.json",
-    "build:esm": "tsc -p tsconfig-esm.json",
+    "clean": "rimraf dist",
+    "build": "tsc",
     "build:watch": "tsc --watch",
     "prepublishOnly": "npm run clean && npm run build",
     "version": "npm run build",
@@ -21,33 +17,13 @@
     "precommit": "npm run prettify && cd example && node generateRaws.js",
     "prepush": "npm run build"
   },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "setupFiles": [
-      "<rootDir>/src/jest/setupFile.ts"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/jest/setupTestFrameworkScriptFile.ts"
-    ],
-    "browser": true,
-    "verbose": true
-  },
   "files": [
-    "lib",
-    "lib-esm",
+    "dist",
     "src"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alex3165/react-mapbox-gl.git"
+    "url": "git+https://github.com/Infamoustrey/react-mapbox-gl"
   },
   "keywords": [
     "mapbox",
@@ -58,17 +34,21 @@
     "react-component"
   ],
   "author": "Alexandre Rieux",
+  "contributors": [
+    "Trey Foster"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alex3165/react-mapbox-gl/issues"
+    "url": "https://github.com/Infamoustrey/react-mapbox-gl/issues"
   },
-  "homepage": "https://github.com/alex3165/react-mapbox-gl#readme",
+  "homepage": "https://github.com/Infamoustrey/react-mapbox-gl#readme",
   "dependencies": {
     "@turf/bbox": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "rimraf": "^3.0.2",
     "supercluster": "^7.0.0",
     "uuid": "^8.3.2"
   },
